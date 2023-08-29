@@ -5,6 +5,7 @@ project(OpenGLAnywhere
     DESCRIPTION "Example running OpenGL native C codes on desktop, browsers, & mobile apps."
     LANGUAGES C)
 
+find_program(XXD xxd REQUIRED)
 file(GLOB_RECURSE ress res/*)
 file(WRITE src/res.c "/**\n")
 file(APPEND src/res.c " * @brief This is a generated file.\n")
@@ -13,7 +14,7 @@ file(APPEND src/res.c " */\n\n\n")
 foreach(res ${ress})
     string(REGEX MATCH "(res/.+)$" filename ${res})
     execute_process(WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-        COMMAND xxd -i ${filename}
+        COMMAND ${XXD} -i ${filename}
         OUTPUT_VARIABLE res_c)
     file(APPEND src/res.c "${res_c}")
 endforeach()
